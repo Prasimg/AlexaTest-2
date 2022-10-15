@@ -85,6 +85,8 @@ class SpecificFactIntentHandler(AbstractRequestHandler):
         
         if (factTopic.lower() == "pizza"):
             speak_output="Pratham Gupta likes pizza"
+        elif (factTopic.lower()=="football"):
+            speak_output="Hey user, if you like football, FIFA is starting from next month"
         else:
             speak_output = "This is a fact about " + factTopic
 
@@ -94,6 +96,23 @@ class SpecificFactIntentHandler(AbstractRequestHandler):
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
                 .response
         )
+
+class FifaScoresIntentHandler(AbstractRequestHandler):
+    def can_handle(self, handler_input):
+        return ask_utils.is_intent_name("FifaScoresIntent")(handler_input)
+
+    def handle(self, handler_input):
+        slots=handler_input.request_envelope.request.intent.slots
+
+        score=slots["Scores"].value
+
+        if (score.lower()=="0-0"):
+            speak_output="Match is draw"
+        
+        return (
+            handler_input.response_builder.speak(speak_output).response
+        )
+
 
 class HelpIntentHandler(AbstractRequestHandler):
     """Handler for Help Intent."""
